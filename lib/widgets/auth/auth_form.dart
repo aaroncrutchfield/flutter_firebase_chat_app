@@ -33,8 +33,8 @@ class _AuthFormState extends State<AuthForm> {
       _formKey.currentState.save();
       widget.submitAuthForm(
         _userEmail.trim(),
-        _username.trim(),
         _password.trim(),
+        _username.trim(),
         _isLogin,
         context,
       );
