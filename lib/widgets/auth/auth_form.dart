@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/widgets/auth/user_image_picker.dart';
 
@@ -26,9 +28,19 @@ class _AuthFormState extends State<AuthForm> {
   var _username = '';
   var _password = '';
 
+  File _userImageFile;
+
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
+
+    if (_userImageFile != null && !_isLogin) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Please pick an image'),
+        backgroundColor: Theme.of(context).errorColor,
+      ));
+      return;
+    }
 
     if (isValid) {
       _formKey.currentState.save();
@@ -40,6 +52,10 @@ class _AuthFormState extends State<AuthForm> {
         context,
       );
     }
+  }
+
+  void _imagePicker(File imageFile) {
+    _userImageFile = imageFile;
   }
 
   @override
@@ -55,7 +71,7 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  if (!_isLogin) UserImagePicker(),
+                  if (!_isLogin) UserImagePicker(imagePicker: _imagePicker),
                   TextFormField(
                     key: ValueKey('email'),
                     validator: (emailInput) {
