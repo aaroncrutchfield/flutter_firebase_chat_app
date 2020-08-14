@@ -17,10 +17,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.getImage(source: ImageSource.camera);
+    final pickedImage = await picker.getImage(
+      source: ImageSource.camera,
+      maxWidth: 150,
+    );
     final pickedImageFile = File(pickedImage.path);
     setState(() {
-    	_pickedImage = pickedImageFile;
+      _pickedImage = pickedImageFile;
     });
     widget.imagePicker(pickedImageFile);
   }
@@ -31,8 +34,9 @@ class _UserImagePickerState extends State<UserImagePicker> {
       children: <Widget>[
         CircleAvatar(
           radius: 40,
-	        backgroundColor: Colors.grey,
-	        backgroundImage: _pickedImage != null ? FileImage(_pickedImage) : null,
+          backgroundColor: Colors.grey,
+          backgroundImage:
+              _pickedImage != null ? FileImage(_pickedImage) : null,
         ),
         FlatButton.icon(
           textColor: Theme.of(context).primaryColor,
