@@ -16,7 +16,20 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     final firebaseMessaging = FirebaseMessaging();
     firebaseMessaging.requestNotificationPermissions();
-    firebaseMessaging.configure();
+    firebaseMessaging.configure(
+      onMessage: (msg) {
+        print('onMessage: $msg');
+        return;
+      },
+      onLaunch: (msg) {
+        print('onLaunch: $msg');
+        return;
+      },
+      onResume: (msg) {
+        print('onResume: $msg');
+        return;
+      },
+    );
   }
 
   @override
