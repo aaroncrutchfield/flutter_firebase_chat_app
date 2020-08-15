@@ -28,7 +28,6 @@ class _AuthFormState extends State<AuthForm> {
   var _userEmail = '';
   var _username = '';
   var _password = '';
-
   File _userImageFile;
 
   void _trySubmit() {
@@ -36,10 +35,12 @@ class _AuthFormState extends State<AuthForm> {
     FocusScope.of(context).unfocus();
 
     if (_userImageFile == null && !_isLogin) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Please pick an image'),
-        backgroundColor: Theme.of(context).errorColor,
-      ));
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please pick an image'),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
       return;
     }
 
