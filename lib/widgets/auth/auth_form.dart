@@ -77,6 +77,9 @@ class _AuthFormState extends State<AuthForm> {
                   if (!_isLogin) UserImagePicker(imagePicker: _imagePicker),
                   TextFormField(
                     key: ValueKey('email'),
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
+                    enableSuggestions: false,
                     validator: (emailInput) {
                       if (emailInput.isEmpty || !emailInput.contains('@')) {
                         return 'Please enter a valid email address.';
