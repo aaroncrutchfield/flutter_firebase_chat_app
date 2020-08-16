@@ -16,11 +16,11 @@ class PrayerItemWidget extends StatelessWidget {
                 fit: FlexFit.tight,
                 child: FittedBox(
                   child: CircleAvatar(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: Colors.white,
                     child: Container(
                       margin: EdgeInsets.all(2),
                       child: CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.grey,
                       ),
                     ),
                   ),
@@ -34,28 +34,31 @@ class PrayerItemWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Jane Cooper'), // username
+                      Text('Jane Cooper', style: Theme.of(context).textTheme.headline2), // username
                       SizedBox(height: 8),
                       Text(
                         'My husband needs he from back pains',
                         softWrap: true,
-                        style: TextStyle(fontSize: 18),
+                        style: Theme.of(context).textTheme.headline1,
                       ), // prayer title
                     ],
                   ),
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  FittedBox(child: Text('12/12/20')), // created date
-                  FittedBox(
-                      child: FlatButton.icon(
-                          onPressed: null,
-                          icon: Icon(Icons.thumb_up),
-                          label: Text('12'))), // prayers count
-                  FittedBox(child: Text('Update')), // update status
-                ],
+              Flexible(
+                fit: FlexFit.tight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    FittedBox(child: Text('12/12/20')), // created date
+                    FittedBox(
+                        child: FlatButton.icon(
+                            onPressed: null,
+                            icon: Icon(Icons.thumb_up),
+                            label: Text('12'))), // prayers count
+                    FittedBox(child: Text('Update', style: Theme.of(context).textTheme.headline2)), // update status
+                  ],
+                ),
               ),
             ],
           ),
