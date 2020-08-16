@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/screens/auth_screen.dart';
 import 'package:flutter_firebase_chat_app/screens/chat_screen.dart';
+import 'package:flutter_firebase_chat_app/screens/prayers_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder(stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (ctx, userSnapshot) {
         if (userSnapshot.hasData) {
-          return ChatScreen();
+          return PrayersScreen();
         }
         return AuthScreen();
       },),
