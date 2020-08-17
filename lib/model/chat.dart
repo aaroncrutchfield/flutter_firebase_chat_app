@@ -5,20 +5,23 @@ class Chat {
 	static const USERNAME = 'username';
 	static const USER_IMAGE = 'userImage';
 	static const USER_ID = 'userId';
+	static const CREATED_AT = 'createdAt';
 
 	String id;
 	String userId;
+	Timestamp createdAt;
 	String message;
 	String username;
 	String userImage;
 
-	Chat({this.id, this.message, this.username, this.userImage, this.userId});
+	Chat({this.id, this.createdAt, this.message, this.username, this.userImage, this.userId});
 
-	factory Chat.fromFirestore(DocumentSnapshot snap) {
-		Map data = snap.data;
+	factory Chat.fromFirestore(DocumentSnapshot snapshot) {
+		Map data = snapshot.data;
 
 		return Chat(
-			id: snap.documentID,
+			id: snapshot.documentID,
+			createdAt: data[CREATED_AT],
 			message: data[TEXT],
 			username: data[USERNAME],
 			userImage: data[USER_IMAGE],

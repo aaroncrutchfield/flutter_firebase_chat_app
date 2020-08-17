@@ -5,7 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_firebase_chat_app/model/user_data.dart';
+import 'package:flutter_firebase_chat_app/service/auth_service.dart';
+import 'package:flutter_firebase_chat_app/service/database_service.dart';
 import 'package:flutter_firebase_chat_app/widgets/auth/auth_form.dart';
+import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -13,8 +17,19 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final _auth = FirebaseAuth.instance;
+  AuthService _authService;
+  DatabaseService _databaseService;
   var _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero)
+        .then((_) {
+      _authService = Provider.of<AuthService>(context, listen: false);
+      _databaseService = Provider.of<DatabaseService>(context, listen: false);
+    });
+  }
 
   void _submitAuthForm(
     String email,
@@ -28,11 +43,10 @@ class _AuthScreenState extends State<AuthScreen> {
     try {
       setState(() => _isLoading = true);
       if (isLogin) {
-        authResult = await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
+        authResult = await _authService.signInWithEmailAndPassword(email, password);
       } else {
-        authResult = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
+        authResult = await _authService.registerWithEmailAndPassword(
+            email, password);
 
         final ref = FirebaseStorage.instance
             .ref()
@@ -43,14 +57,13 @@ class _AuthScreenState extends State<AuthScreen> {
 
         final url = await ref.getDownloadURL();
 
-        await Firestore.instance
-            .collection('users')
-            .document(authResult.user.uid)
-            .setData({
-          'username': username,
-          'email': email,
-          'image_url': url,
-        });
+        await _databaseService.insertNewUserData(UserData(
+          id: authResult.user.uid,
+          email: email,
+          imageUrl: url,
+          username: username,
+        ));
+
       }
     } on PlatformException catch (error) {
       var message = 'An error occurred, please check your credentials';

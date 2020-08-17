@@ -2,19 +2,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_chat_app/data/database_service.dart';
 import 'package:flutter_firebase_chat_app/model/chat.dart';
+import 'package:flutter_firebase_chat_app/service/auth_service.dart';
+import 'package:flutter_firebase_chat_app/service/database_service.dart';
 import 'package:flutter_firebase_chat_app/widgets/chat/message_bubble.dart';
+import 'package:provider/provider.dart';
 
 class Messages extends StatelessWidget {
-  DatabaseService _dbService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
+    final _dbService = Provider.of<DatabaseService>(context, listen: false);
+    final _authService = Provider.of<AuthService>(context, listen: false);
+
+    
     return FutureBuilder(
-      future: _dbService.getCurrentUser(),
-      builder: (ctx, futureSnapshot) {
-        if (futureSnapshot.connectionState == ConnectionState.waiting) {
+      future: _authService.user,
+      builder: (ctx, authUser) {
+        print('hasData: ${authUser.hasData}');
+        print(authUser.connectionState);
+        if (authUser.hasError) print(authUser.error);
+        if (authUser.connectionState == ConnectionState.waiting || !authUser.hasData) {
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -32,7 +40,7 @@ class Messages extends StatelessWidget {
                   message: chatDocs[index].message,
                   userName: chatDocs[index].username,
                   userImage: chatDocs[index].userImage,
-                  isMe: chatDocs[index].userId == futureSnapshot.data.uid,
+                  isMe: chatDocs[index].userId == authUser.data.uid,
                   key: ValueKey(chatDocs[index].id),
                 ),
               );
