@@ -23,16 +23,15 @@ class _NewMessageState extends State<NewMessage> {
     super.initState();
     Future.delayed(Duration.zero)
         .then((_) {
-          _dbService = context.read<DatabaseService>();
-          _authService = context.read<AuthService>();
+          _dbService = Provider.of<DatabaseService>(context, listen: false);
+          _authService = Provider.of<AuthService>(context, listen: false);
         });
   }
 
   void _sendMessage() async {
   	FocusScope.of(context).unfocus();
-    var userData = await _authService.userData;
-  	  _dbService.insertChatMessage(userData, Timestamp.now(), _enteredMessage);
-
+    var user = await _authService.user;
+    await _dbService.insertChatMessage(user.uid, _enteredMessage);
   	_controller.clear();
   }
 
