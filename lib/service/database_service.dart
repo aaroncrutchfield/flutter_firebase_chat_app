@@ -10,32 +10,34 @@ class DatabaseService {
 
   var user;
 
-
   Stream<List<Chat>> getChatList() {
     var snapshots = firestore
         .collection('chat')
         .orderBy('createdAt', descending: true)
         .snapshots();
 
-    return snapshots.map((querySnap) =>
-        querySnap.documents.map((docSnap) => Chat.fromFirestore(docSnap)).toList());
+    return snapshots.map((querySnap) => querySnap.documents
+        .map((docSnap) => Chat.fromFirestore(docSnap))
+        .toList());
   }
 
-  Future<UserData> getUserData(String uid) async {
-  // Fixme doc is returning back null
-    var doc = await firestore.collection('users').document(uid).get();
-    
-    return UserData.fromFirestore(doc);
+  Stream<UserData> getUserData(String uid) {
+    // Fixme doc is returning back null
+    var snapshots = Firestore.instance
+        .collection('users')
+        .document(uid).snapshots();
+
+    return snapshots.map((event) => UserData.fromFirestore(event));
   }
 
-  Future<void> insertChatMessage(UserData userData, Timestamp now, String message) async {
-    firestore.collection('chat').add({
+  Future<void> insertChatMessage(String uid, String message) async {
+    return getUserData(uid).asyncMap((event) async => Firestore.instance.collection('chat').add({
       Chat.TEXT: message,
-      Chat.CREATED_AT: now,
-      Chat.USER_ID: userData.id,
-      Chat.USERNAME: userData.username,
-      Chat.USER_IMAGE: userData.imageUrl,
-    });
+      Chat.CREATED_AT: Timestamp.now(),
+      Chat.USER_ID: event.id,
+      Chat.USERNAME: event.username,
+      Chat.USER_IMAGE: event.imageUrl,
+    }));
   }
 
   Future<void> insertNewUserData(UserData userData) async {

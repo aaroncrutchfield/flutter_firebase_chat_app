@@ -48,6 +48,7 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() => _isLoading = true);
       if (isLogin) {
         authResult = await _authService.signInWithEmailAndPassword(email, password);
+        if (authResult != null) setState(() => _isLoading = false);
       } else {
         authResult = await _authService.registerWithEmailAndPassword(
             email, password);
