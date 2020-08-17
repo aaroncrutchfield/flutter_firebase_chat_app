@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/screens/auth_screen.dart';
 import 'package:flutter_firebase_chat_app/screens/tab_screen.dart';
 import 'package:flutter_firebase_chat_app/service/auth_service.dart';
+import 'package:flutter_firebase_chat_app/service/storage_service.dart';
 import 'package:provider/provider.dart';
 
 import 'service/database_service.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<DatabaseService>(create: (_) => DatabaseService()),
         Provider<AuthService>(create: (_) => AuthService()),
+        Provider<StorageService>(create: (_) => StorageService()),
       ],
       child: MaterialApp(
         title: 'FlutterChat',

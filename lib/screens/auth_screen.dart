@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_firebase_chat_app/model/user_data.dart';
 import 'package:flutter_firebase_chat_app/service/auth_service.dart';
 import 'package:flutter_firebase_chat_app/service/database_service.dart';
+import 'package:flutter_firebase_chat_app/service/storage_service.dart';
 import 'package:flutter_firebase_chat_app/widgets/auth/auth_form.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,9 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   AuthService _authService;
   DatabaseService _databaseService;
+  StorageService _storageService;
   var _isLoading = false;
+
 
   @override
   void initState() {
@@ -28,6 +31,7 @@ class _AuthScreenState extends State<AuthScreen> {
         .then((_) {
       _authService = Provider.of<AuthService>(context, listen: false);
       _databaseService = Provider.of<DatabaseService>(context, listen: false);
+      _storageService = Provider.of<StorageService>(context, listen: false);
     });
   }
 
@@ -48,14 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
         authResult = await _authService.registerWithEmailAndPassword(
             email, password);
 
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child('user_images')
-            .child('${authResult.user.uid}.jpg');
-
-        await ref.putFile(image).onComplete;
-
-        final url = await ref.getDownloadURL();
+        final url = await _storageService.uploadUserImage(authResult.user.uid, image);
 
         await _databaseService.insertNewUserData(UserData(
           id: authResult.user.uid,
