@@ -43,6 +43,8 @@ class DatabaseService {
       UserData.EMAIL: userData.email,
       UserData.IMAGE_URL: userData.imageUrl,
       UserData.USERNAME: userData.username,
+    }).catchError((onError) {
+      print('Error occured: $onError');
     });
   }
 }

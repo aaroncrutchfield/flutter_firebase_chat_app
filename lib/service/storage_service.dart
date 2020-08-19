@@ -12,7 +12,8 @@ class StorageService {
 				.child('$uid.jpg');
 
 		await ref.putFile(image).onComplete;
+		String url = await ref.getDownloadURL();
 
-		return ref.getDownloadURL();
+		return url;
 	}
 }

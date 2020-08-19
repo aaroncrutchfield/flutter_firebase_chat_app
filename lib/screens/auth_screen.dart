@@ -55,7 +55,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
         final url = await _storageService.uploadUserImage(authResult.user.uid, image);
 
-        await _databaseService.insertNewUserData(UserData(
+        _databaseService.insertNewUserData(UserData(
           id: authResult.user.uid,
           email: email,
           imageUrl: url,
@@ -78,7 +78,7 @@ class _AuthScreenState extends State<AuthScreen> {
       );
       setState(() => _isLoading = false);
     } catch (error) {
-      print(error);
+      print('Error occured: $error');
       setState(() => _isLoading = false);
     }
   }
