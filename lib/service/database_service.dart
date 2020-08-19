@@ -21,22 +21,20 @@ class DatabaseService {
         .toList());
   }
 
-  Stream<UserData> getUserData(String uid) {
-    // Fixme doc is returning back null
-    var snapshots = Firestore.instance
-        .collection('users')
-        .document(uid).snapshots();
+  Future<UserData> getUserData(String uid) async {
+    var snapshots = await firestore.collection('users')
+        .document(uid).get();
 
-    return snapshots.map((event) => UserData.fromFirestore(event));
+    return UserData.fromFirestore(snapshots);
   }
 
   Future<void> insertChatMessage(String uid, String message) async {
-    return getUserData(uid).asyncMap((event) async => Firestore.instance.collection('chat').add({
+    getUserData(uid).then((userData) => firestore.collection('chat').add({
       Chat.TEXT: message,
       Chat.CREATED_AT: Timestamp.now(),
-      Chat.USER_ID: event.id,
-      Chat.USERNAME: event.username,
-      Chat.USER_IMAGE: event.imageUrl,
+      Chat.USER_ID: userData.id,
+      Chat.USERNAME: userData.username,
+      Chat.USER_IMAGE: userData.imageUrl,
     }));
   }
 

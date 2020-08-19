@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_chat_app/model/chat.dart';
 import 'package:flutter_firebase_chat_app/service/auth_service.dart';
 import 'package:flutter_firebase_chat_app/service/database_service.dart';
 import 'package:provider/provider.dart';
@@ -56,9 +57,8 @@ class _NewMessageState extends State<NewMessage> {
           IconButton(
             color: Theme.of(context).primaryColor,
             icon: Icon(Icons.send),
-            onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage
-            ,
-          )
+            onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage,
+          ),
         ],
       ),
     );
