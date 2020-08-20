@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_firebase_chat_app/model/prayer.dart';
+import 'package:flutter_firebase_chat_app/service/database_service.dart';
+import 'package:provider/provider.dart';
 
 class PrayerItemWidget extends StatelessWidget {
+  final Prayer prayer;
+
+  PrayerItemWidget(this.prayer);
+
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: <Widget>[
         Container(
@@ -20,6 +28,7 @@ class PrayerItemWidget extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.all(2),
                       child: CircleAvatar(
+                        backgroundImage: NetworkImage(prayer.metadata.usrImageUrl),
                         backgroundColor: Colors.grey,
                       ),
                     ),
@@ -34,10 +43,10 @@ class PrayerItemWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Jane Cooper', style: Theme.of(context).textTheme.headline2), // username
+                      Text(prayer.metadata.usrUsername, style: Theme.of(context).textTheme.headline2), // username
                       SizedBox(height: 8),
                       Text(
-                        'My husband needs he from back pains',
+                        prayer.title,
                         softWrap: true,
                         style: Theme.of(context).textTheme.headline1,
                       ), // prayer title
@@ -46,16 +55,16 @@ class PrayerItemWidget extends StatelessWidget {
                 ),
               ),
               Flexible(
+                flex: 2,
                 fit: FlexFit.tight,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     FittedBox(child: Text('12/12/20')), // created date
-                    FittedBox(
-                        child: FlatButton.icon(
-                            onPressed: null,
-                            icon: Icon(Icons.thumb_up),
-                            label: Text('12'))), // prayers count
+                    FlatButton.icon(
+                        onPressed: null,
+                        icon: Icon(Icons.thumb_up),
+                        label: Text('12')), // prayers count
                     FittedBox(child: Text('Update', style: Theme.of(context).textTheme.headline2)), // update status
                   ],
                 ),

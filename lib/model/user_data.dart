@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserData {
+	static const ID = 'userId';
 	static const EMAIL = 'email';
 	static const IMAGE_URL = 'image_url';
 	static const USERNAME = 'username';

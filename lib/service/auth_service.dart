@@ -1,7 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_firebase_chat_app/model/user_data.dart';
-
-import 'database_service.dart';
 
 class AuthService {
 
@@ -27,7 +24,7 @@ class AuthService {
 		try {
 			return await _auth.signInWithEmailAndPassword(email: email, password: password);
 		} catch (error) {
-			print(error.toString());
+			print('signInWithEmail $error');
 			return null;
 		}
 	}
@@ -37,7 +34,7 @@ class AuthService {
 		try {
 			return await _auth.createUserWithEmailAndPassword(email: email, password: password);
 		} catch (error) {
-			print(error.toString());
+			print('registerWithEmail $error');
 			return null;
 		}
 	}
