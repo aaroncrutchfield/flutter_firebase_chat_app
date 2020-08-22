@@ -44,7 +44,12 @@ class MyApp extends StatelessWidget {
             headline2: TextStyle(
               color: Colors.amber,
               fontFeatures: [FontFeature.enable('smcp')],
-              fontSize: 14,
+              fontSize: 18,
+            ),
+            headline3: TextStyle(
+              color: Colors.amber,
+              fontFeatures: [FontFeature.enable('smcp')],
+              fontSize: 12,
             ),
           ),
           accentColorBrightness: Brightness.dark,
