@@ -22,25 +22,23 @@ class PrayerItemWidget extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Flexible(
-                flex: 2,
-                fit: FlexFit.tight,
-                child: FittedBox(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Container(
-                      margin: EdgeInsets.all(2),
-                      child: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(prayer.metadata.usrImageUrl),
-                        backgroundColor: Colors.grey,
-                      ),
+              FittedBox(
+                child: CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Colors.white,
+                  child: Container(
+                    margin: EdgeInsets.all(4),
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage:
+                          NetworkImage(prayer.metadata.usrImageUrl),
+                      backgroundColor: Colors.grey,
                     ),
                   ),
                 ),
               ),
               Flexible(
-                flex: 5,
+                flex: 10,
                 fit: FlexFit.tight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -62,7 +60,7 @@ class PrayerItemWidget extends StatelessWidget {
                 ),
               ),
               Flexible(
-                flex: 2,
+                flex: 3,
                 fit: FlexFit.tight,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -72,12 +70,15 @@ class PrayerItemWidget extends StatelessWidget {
                       DateTime.fromMillisecondsSinceEpoch(
                           prayer.metadata.docCreatedAt.millisecondsSinceEpoch),
                     ))), // created date
-                    FlatButton.icon(
-                        onPressed: () {
-                          return _databaseService.updatePrayerCount(prayer);
-                        },
-                        icon: Icon(Icons.thumb_up),
-                        label: Text('${prayer.prayerCount}')), // prayers count
+                    FittedBox(
+                      fit: BoxFit.fill,
+                      child: FlatButton.icon(
+                          onPressed: () {
+                            return _databaseService.updatePrayerCount(prayer);
+                          },
+                          icon: Icon(Icons.thumb_up),
+                          label: Text('${prayer.prayerCount}')),
+                    ), // prayers count
                     FittedBox(
                         child: Text('Update',
                             style: Theme.of(context)
