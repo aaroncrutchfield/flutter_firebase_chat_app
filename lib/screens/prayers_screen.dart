@@ -25,8 +25,6 @@ class _PrayersScreenState extends State<PrayersScreen> {
         if (prayerSnapshot.connectionState == ConnectionState.waiting ||
             !prayerSnapshot.hasData) return Text('');
         final List<Prayer> prayerList = prayerSnapshot.data;
-        print('Prayers: ${prayerList.length}');
-        print(prayerList[0].metadata.usrUsername);
         return ListView.builder(
           itemCount: prayerList.length,
           itemBuilder: (ctx, index) => PrayerItemWidget(prayerList[index]),

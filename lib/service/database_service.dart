@@ -57,8 +57,8 @@ class DatabaseService {
   ) async {
     return getUserData(uid).then((userData) {
       prayer.metadata = Metadata.fromUserData(userData);
-      return firestore.collection('_prayer').add(prayer.toMap())
-          .then((prayerDoc) => prayerDoc.collection('details').add(details.toMap()));
+      return firestore.collection('_prayer').add(prayer.toMap()).then(
+          (prayerDoc) => prayerDoc.collection('details').add(details.toMap()));
     }).catchError((onError, stack) {
       print('insertPrayer error: $onError \n$stack');
     });
@@ -80,5 +80,12 @@ class DatabaseService {
         .collection('_prayer')
         .document(uid)
         .collection('personal_prayers');
+  }
+
+  updatePrayerCount(Prayer prayer) {
+    return firestore
+        .collection('_prayer')
+        .document(prayer.metadata.docId)
+        .updateData({Prayer.PRAYER_COUNT: prayer.prayerCount + 1});
   }
 }
