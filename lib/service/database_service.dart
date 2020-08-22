@@ -67,19 +67,13 @@ class DatabaseService {
   Stream<List<Prayer>> getPrayers() {
     var snapshots = firestore
         .collection('_prayer')
-//        .orderBy(Metadata.DOCUMENT_CREATED_AT, descending: true)
+        .orderBy('${Metadata.METADATA}.${Metadata.DOCUMENT_CREATED_AT}',
+            descending: true)
         .snapshots();
 
     return snapshots.map((querySnap) => querySnap.documents
         .map((docSnap) => Prayer.fromFirestore(docSnap))
         .toList());
-  }
-
-  CollectionReference _prayerCollection(String uid) {
-    return firestore
-        .collection('_prayer')
-        .document(uid)
-        .collection('personal_prayers');
   }
 
   updatePrayerCount(Prayer prayer) {
