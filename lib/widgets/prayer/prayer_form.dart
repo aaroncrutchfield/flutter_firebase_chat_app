@@ -54,7 +54,9 @@ class _PrayerFormState extends State<PrayerForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('New Prayer Request'),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+      ),
       content: Form(
         key: _formKey,
         child: Column(
@@ -70,8 +72,15 @@ class _PrayerFormState extends State<PrayerForm> {
                 return null;
               },
               onSaved: (titleInput) => _title = titleInput,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(
+
+                hintText: 'Title',
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Colors.grey[200],
+              ),
             ),
+            SizedBox(height: 16),
             TextFormField(
               key: ValueKey('details'),
               validator: (detailsInput) {
@@ -82,17 +91,33 @@ class _PrayerFormState extends State<PrayerForm> {
               },
               onSaved: (detailsInput) => _details = detailsInput,
               keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(labelText: 'Details'),
+              minLines: 4,
+              maxLines: 8,
+              decoration: InputDecoration(
+                hintText: 'Details',
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Colors.grey[200],
+              ),
             ),
+            SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 FlatButton(
-                  child: Text('Cancel'),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                FlatButton(
+                RaisedButton(
                   child: Text('OK'),
                   onPressed: _validatePrayer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  ),
                 ),
               ],
             )
