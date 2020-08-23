@@ -51,6 +51,12 @@ class MyApp extends StatelessWidget {
               fontFeatures: [FontFeature.enable('smcp')],
               fontSize: 12,
             ),
+            headline5: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontFeatures: [FontFeature.enable('smcp')],
+              fontSize: 18,
+            ),
           ),
           accentColorBrightness: Brightness.dark,
           buttonTheme: ButtonTheme.of(context).copyWith(

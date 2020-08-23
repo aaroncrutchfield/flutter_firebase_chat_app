@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_firebase_chat_app/model/prayer.dart';
+import 'package:flutter_firebase_chat_app/screens/prayer_details_screen.dart';
 import 'package:flutter_firebase_chat_app/service/database_service.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -43,20 +44,29 @@ class PrayerItemWidget extends StatelessWidget {
                   flex: 10,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(prayer.metadata.usrUsername,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline2), // username
-                        SizedBox(height: 8),
-                        Text(
-                          prayer.title,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.headline1,
-                        ), // prayer title
-                      ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    PrayerDetailsScreen(prayer)));
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(prayer.metadata.usrUsername,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline2), // username
+                          SizedBox(height: 8),
+                          Text(
+                            prayer.title,
+                            softWrap: true,
+                            style: Theme.of(context).textTheme.headline1,
+                          ), // prayer title
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -68,8 +78,8 @@ class PrayerItemWidget extends StatelessWidget {
                     children: <Widget>[
                       FittedBox(
                           child: Text(DateFormat('MMM d, yyyy').format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                            prayer.metadata.docCreatedAt.millisecondsSinceEpoch),
+                        DateTime.fromMillisecondsSinceEpoch(prayer
+                            .metadata.docCreatedAt.millisecondsSinceEpoch),
                       ))), // created date
                       FittedBox(
                         child: FlatButton.icon(
@@ -92,7 +102,8 @@ class PrayerItemWidget extends StatelessWidget {
           ),
         ),
         Divider(
-          thickness: 2.0,
+          color: Colors.grey[700],
+          thickness: 1.0,
           indent: 16.0,
           endIndent: 16.0,
         ),

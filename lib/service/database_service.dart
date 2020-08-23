@@ -76,6 +76,18 @@ class DatabaseService {
         .toList());
   }
 
+  Stream<List<PrayerDetails>> getPrayerDetails(Prayer prayer) {
+    var snapshots = firestore
+        .collection('_prayer')
+        .document(prayer.metadata.docId)
+        .collection('details')
+        .snapshots();
+
+    return snapshots.map((querySnapshot) => querySnapshot.documents
+        .map((docSnapshot) => PrayerDetails.fromFirestore(docSnapshot))
+        .toList());
+  }
+
   updatePrayerCount(Prayer prayer) {
     return firestore
         .collection('_prayer')
