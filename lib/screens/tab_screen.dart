@@ -89,7 +89,7 @@ class _TabScreenState extends State<TabScreen> {
       context: context,
       barrierDismissible: false,
       builder: (ctx) {
-        return PrayerForm();
+        return PrayerForm.newPrayer();
       }
     );
   }

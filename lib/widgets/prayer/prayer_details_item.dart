@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/model/prayer.dart';
 import 'package:flutter_firebase_chat_app/model/prayer_details.dart';
 import 'package:flutter_firebase_chat_app/service/database_service.dart';
-import 'package:flutter_firebase_chat_app/widgets/scrolling_page_indicator.dart';
+import 'package:flutter_firebase_chat_app/widgets/common/scrolling_page_indicator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

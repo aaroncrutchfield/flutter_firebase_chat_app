@@ -23,12 +23,6 @@ class DatabaseService {
         .toList());
   }
 
-  Future<UserData> getUserData(String uid) async {
-    var snapshots = await firestore.collection('users').document(uid).get();
-
-    return UserData.fromFirestore(snapshots);
-  }
-
   Future<void> insertChatMessage(String uid, String message) async {
     getUserData(uid).then((userData) => firestore.collection('chat').add({
           Chat.TEXT: message,
@@ -47,6 +41,12 @@ class DatabaseService {
     }).catchError((onError) {
       print('insertUser error: $onError');
     });
+  }
+
+  Future<UserData> getUserData(String uid) async {
+    var snapshots = await firestore.collection('users').document(uid).get();
+
+    return UserData.fromFirestore(snapshots);
   }
 
   Future<DocumentReference> insertNewPrayer(
@@ -73,6 +73,15 @@ class DatabaseService {
     return snapshots.map((querySnap) => querySnap.documents
         .map((docSnap) => Prayer.fromFirestore(docSnap))
         .toList());
+  }
+
+  Future<DocumentReference> insertNewPrayerDetail(
+      Prayer prayer, PrayerDetails prayerDetails) async {
+    return firestore.collection('_prayer').document(prayer.metadata.docId)
+        .collection('details')
+        .add(prayerDetails.toMap()).catchError((onError, stack) {
+      print('insertPrayerDetails error: $onError \n$stack');
+    });
   }
 
   Stream<List<PrayerDetails>> getPrayerDetails(Prayer prayer) {
