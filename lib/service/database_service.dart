@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_firebase_chat_app/model/chat.dart';
 import 'package:flutter_firebase_chat_app/model/metadata.dart';
@@ -81,6 +80,7 @@ class DatabaseService {
         .collection('_prayer')
         .document(prayer.metadata.docId)
         .collection('details')
+        .orderBy(PrayerDetails.UPDATE_DATE, descending: true)
         .snapshots();
 
     return snapshots.map((querySnapshot) => querySnapshot.documents

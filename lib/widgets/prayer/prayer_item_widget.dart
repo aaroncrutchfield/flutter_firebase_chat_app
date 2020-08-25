@@ -90,7 +90,7 @@ class PrayerItemWidget extends StatelessWidget {
                             label: Text('${prayer.prayerCount}')),
                       ), // prayers count
                       FittedBox(
-                          child: Text('Update',
+                          child: Text(prayer.updated ? 'Update': ' ',
                               style: Theme.of(context)
                                   .textTheme
                                   .headline3)), // update status

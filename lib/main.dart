@@ -32,9 +32,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.deepPurple,
           accentColor: Colors.amber,
           textTheme: TextTheme(
-            bodyText2: TextStyle(
-              color: Colors.white
-            ),
+            bodyText2: TextStyle(color: Colors.white),
             headline1: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -56,6 +54,12 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontFeatures: [FontFeature.enable('smcp')],
               fontSize: 18,
+            ),
+            caption: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+              fontFeatures: [FontFeature.enable('smcp')],
+              fontSize: 16,
             ),
           ),
           accentColorBrightness: Brightness.dark,

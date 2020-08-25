@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/model/prayer.dart';
 import 'package:flutter_firebase_chat_app/model/prayer_details.dart';
 import 'package:flutter_firebase_chat_app/service/database_service.dart';
+import 'package:flutter_firebase_chat_app/widgets/scrolling_page_indicator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,14 @@ class PrayerDetailsItem extends StatefulWidget {
 }
 
 class _PrayerDetailsItemState extends State<PrayerDetailsItem> {
+  PageController controller = PageController();
+
+  int docCount = 0;
+
+  void _pageChanged(int value) {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     DatabaseService _databaseService = Provider.of<DatabaseService>(context);
@@ -33,7 +42,8 @@ class _PrayerDetailsItemState extends State<PrayerDetailsItem> {
                 children: <Widget>[
                   CircleAvatar(
                     backgroundColor: Colors.grey,
-                    backgroundImage: NetworkImage(widget.prayer.metadata.usrImageUrl),
+                    backgroundImage:
+                        NetworkImage(widget.prayer.metadata.usrImageUrl),
                     radius: 40,
                   ),
                   SizedBox(width: 16),
@@ -49,7 +59,8 @@ class _PrayerDetailsItemState extends State<PrayerDetailsItem> {
                           children: <Widget>[
                             Text(
                               DateFormat('MMM d, yyyy').format(
-                                DateTime.fromMillisecondsSinceEpoch(widget.prayer
+                                DateTime.fromMillisecondsSinceEpoch(widget
+                                    .prayer
                                     .metadata
                                     .docCreatedAt
                                     .millisecondsSinceEpoch),
@@ -75,17 +86,35 @@ class _PrayerDetailsItemState extends State<PrayerDetailsItem> {
             StreamBuilder(
                 stream: _databaseService.getPrayerDetails(widget.prayer),
                 builder: (ctx, detailsSnapshot) {
-                  print('details connections: ${detailsSnapshot.connectionState}');
+                  print(
+                      'details connections: ${detailsSnapshot.connectionState}');
                   print('details has data: ${detailsSnapshot.hasData}');
                   if (detailsSnapshot.connectionState ==
                           ConnectionState.waiting ||
                       !detailsSnapshot.hasData) return Text('');
                   final List<PrayerDetails> detailsDocs = detailsSnapshot.data;
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    reverse: true,
-                    itemCount: detailsDocs.length,
-                    itemBuilder: (ctx, index) => Text(detailsDocs[index].details, style: TextStyle(color: Colors.black),),
+                  docCount = detailsDocs.length;
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        height: 100,
+                        child: PageView.builder(
+                          onPageChanged: _pageChanged,
+                          controller: controller,
+                          itemCount: detailsDocs.length,
+                          itemBuilder: (ctx, index) => Text(
+                            detailsDocs[index].details,
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ),
+                      ),
+                      ScrollingPageIndicator(
+                        dotColor: Colors.grey,
+                        dotSelectedColor: Colors.amber,
+                        controller: controller,
+                        itemCount: docCount,
+                      )
+                    ],
                   );
                 }),
           ],
