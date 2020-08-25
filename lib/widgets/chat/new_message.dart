@@ -51,6 +51,9 @@ class _UserInputState extends State<UserInput> {
         break;
     }
     _controller.clear();
+    setState(() {
+      _enteredMessage = '';
+    });
   }
 
   @override
