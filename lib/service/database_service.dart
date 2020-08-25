@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_firebase_chat_app/model/chat.dart';
 import 'package:flutter_firebase_chat_app/model/metadata.dart';
 import 'package:flutter_firebase_chat_app/model/prayer.dart';
+import 'package:flutter_firebase_chat_app/model/prayer_comment.dart';
 import 'package:flutter_firebase_chat_app/model/prayer_details.dart';
 import 'package:flutter_firebase_chat_app/model/user_data.dart';
 
@@ -77,9 +78,12 @@ class DatabaseService {
 
   Future<DocumentReference> insertNewPrayerDetail(
       Prayer prayer, PrayerDetails prayerDetails) async {
-    return firestore.collection('_prayer').document(prayer.metadata.docId)
+    return firestore
+        .collection('_prayer')
+        .document(prayer.metadata.docId)
         .collection('details')
-        .add(prayerDetails.toMap()).catchError((onError, stack) {
+        .add(prayerDetails.toMap())
+        .catchError((onError, stack) {
       print('insertPrayerDetails error: $onError \n$stack');
     });
   }
@@ -95,6 +99,20 @@ class DatabaseService {
     return snapshots.map((querySnapshot) => querySnapshot.documents
         .map((docSnapshot) => PrayerDetails.fromFirestore(docSnapshot))
         .toList());
+  }
+
+  Future<DocumentReference> insertNewPrayerComment(
+      String uid, String docId, PrayerComment prayerComment) async {
+    return getUserData(uid).then((userData) {
+      prayerComment.metadata = Metadata.fromUserData(userData);
+      return firestore
+          .collection('_prayer')
+          .document(docId)
+          .collection('comments')
+          .add(prayerComment.toMap());
+    }).catchError((onError, stack) {
+      print('insertPrayerComment error: $onError \n$stack');
+    });
   }
 
   updatePrayerCount(Prayer prayer) {

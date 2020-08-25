@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/model/prayer.dart';
+import 'package:flutter_firebase_chat_app/widgets/chat/new_message.dart';
 import 'package:flutter_firebase_chat_app/widgets/prayer/prayer_details_item.dart';
 import 'package:flutter_firebase_chat_app/widgets/prayer/prayer_form.dart';
 
@@ -19,13 +20,20 @@ class _PrayerDetailsScreenState extends State<PrayerDetailsScreen> {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          child: PrayerDetailsItem(widget.prayer),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            PrayerDetailsItem(widget.prayer),
+            UserInput.comment(docId: widget.prayer.metadata.docId),
+          ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addPrayerDetail,
-        child: Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 64.0),
+        child: FloatingActionButton(
+          onPressed: _addPrayerDetail,
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
