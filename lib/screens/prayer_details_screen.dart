@@ -35,7 +35,7 @@ class _PrayerDetailsScreenState extends State<PrayerDetailsScreen> {
         context: context,
         barrierDismissible: false,
         builder: (ctx) {
-          return PrayerForm.prayerDetails(prayer: widget.prayer);
+          return PrayerForm.update(prayer: widget.prayer);
         });
   }
 }

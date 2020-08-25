@@ -7,14 +7,14 @@ import 'package:flutter_firebase_chat_app/service/database_service.dart';
 import 'package:provider/provider.dart';
 
 class PrayerForm extends StatefulWidget {
-	final bool isNewPrayer;
+	final bool isUpdate;
 	final Prayer prayer;
 
-	const PrayerForm.newPrayer({Key key, this.isNewPrayer: true, this.prayer})
+	const PrayerForm.newPrayer({Key key, this.isUpdate: false, this.prayer})
 			: super(key: key);
 
-	const PrayerForm.prayerDetails(
-			{Key key, this.isNewPrayer: false, @required this.prayer})
+	const PrayerForm.update(
+			{Key key, this.isUpdate: true, @required this.prayer})
 			: super(key: key);
 
 
@@ -49,7 +49,7 @@ class _PrayerFormState extends State<PrayerForm> {
 		if (isValid) {
 			_formKey.currentState.save();
 			var prayerDetails = PrayerDetails(details: _details.trim());
-			if (widget.isNewPrayer) {
+			if (widget.isUpdate) {
 				_dbService.insertNewPrayer(
 					user.uid,
 					Prayer(title: _title.trim()),
@@ -74,7 +74,7 @@ class _PrayerFormState extends State<PrayerForm> {
 					mainAxisSize: MainAxisSize.min,
 					crossAxisAlignment: CrossAxisAlignment.end,
 					children: <Widget>[
-						if (widget.isNewPrayer) TextFormField(
+						if (!widget.isUpdate) TextFormField(
 							key: ValueKey('title'),
 							validator: (titleInput) {
 								if (titleInput.isEmpty || titleInput.length < 4) {
@@ -91,7 +91,7 @@ class _PrayerFormState extends State<PrayerForm> {
 								fillColor: Colors.grey[200],
 							),
 						),
-						if (widget.isNewPrayer)SizedBox(height: 16),
+						if (!widget.isUpdate) SizedBox(height: 16),
 						TextFormField(
 							key: ValueKey('details'),
 							validator: (detailsInput) {
@@ -105,7 +105,7 @@ class _PrayerFormState extends State<PrayerForm> {
 							minLines: 4,
 							maxLines: 8,
 							decoration: InputDecoration(
-								hintText: 'Details',
+								hintText: widget.isUpdate ? 'Update details' : 'Details',
 								border: InputBorder.none,
 								filled: true,
 								fillColor: Colors.grey[200],
