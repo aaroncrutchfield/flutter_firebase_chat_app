@@ -27,11 +27,14 @@ class _PrayerDetailsScreenState extends State<PrayerDetailsScreen> {
         children: <Widget>[
           Expanded(
             child: ListView(
+
               children: <Widget>[
                 PrayerDetailsItem(widget.prayer),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Comments', style: Theme.of(context).textTheme.headline1),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16.0, bottom: 4.0),
+                    child: Text('Comments', style: Theme.of(context).textTheme.headline1),
+                  ),
                 ),
                 PrayerComments(docId: widget.prayer.metadata.docId),
               ],
