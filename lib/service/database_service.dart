@@ -24,8 +24,8 @@ class DatabaseService {
         .toList());
   }
 
-  Future<void> insertChatMessage(String uid, String message) async {
-    getUserData(uid).then((userData) => firestore.collection('chat').add({
+  Future<DocumentReference> insertChatMessage(String uid, String message) async {
+    return getUserData(uid).then((userData) => firestore.collection('chat').add({
           Chat.TEXT: message,
           Chat.CREATED_AT: Timestamp.now(),
           Chat.USER_ID: userData.id,
@@ -101,7 +101,7 @@ class DatabaseService {
         .toList());
   }
 
-  Future<DocumentReference> insertNewPrayerComment(
+  Future<void> insertNewPrayerComment(
       String uid, String docId, PrayerComment prayerComment) async {
     return getUserData(uid).then((userData) {
       prayerComment.metadata = Metadata.fromUserData(userData);
@@ -113,6 +113,18 @@ class DatabaseService {
     }).catchError((onError, stack) {
       print('insertPrayerComment error: $onError \n$stack');
     });
+  }
+
+  Stream<List<PrayerComment>> getPrayerComments(String docId) {
+    var snapshots = firestore
+        .collection('_prayer')
+        .document(docId)
+        .collection('comments')
+        .snapshots();
+
+    return snapshots.map((querySnapshot) => querySnapshot.documents
+        .map((docSnapshot) => PrayerComment.fromFirestore(docSnapshot))
+        .toList());
   }
 
   updatePrayerCount(Prayer prayer) {

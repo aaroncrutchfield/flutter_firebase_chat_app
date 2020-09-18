@@ -9,12 +9,14 @@ import 'package:provider/provider.dart';
 class PrayerForm extends StatefulWidget {
 	final bool isUpdate;
 	final Prayer prayer;
+	final GlobalKey<ScaffoldState> scaffoldKey;
 
-	const PrayerForm.newPrayer({Key key, this.isUpdate: false, this.prayer})
+
+	const PrayerForm.newPrayer({Key key, this.isUpdate: false, this.prayer, this.scaffoldKey})
 			: super(key: key);
 
 	const PrayerForm.update(
-			{Key key, this.isUpdate: true, @required this.prayer})
+			{Key key, this.isUpdate: true, @required this.prayer, this.scaffoldKey})
 			: super(key: key);
 
 
@@ -24,11 +26,12 @@ class PrayerForm extends StatefulWidget {
 
 class _PrayerFormState extends State<PrayerForm> {
 	final _formKey = GlobalKey<FormState>();
+
 	DatabaseService _dbService;
 	AuthService _authService;
 
-	String _title;
-	String _details;
+	String _title = '';
+	String _details = '';
 
 	@override
 	void initState() {
@@ -54,9 +57,14 @@ class _PrayerFormState extends State<PrayerForm> {
 					user.uid,
 					Prayer(title: _title.trim()),
 					prayerDetails,
-				);
+				).catchError((onError) {
+					Scaffold.of(context).showSnackBar(SnackBar(content: Text(onError.toString()),));
+				});
 			} else {
-				_dbService.insertNewPrayerDetail(widget.prayer, prayerDetails);
+				await _dbService.insertNewPrayerDetail(widget.prayer, prayerDetails)
+				.catchError((onError) {
+					widget.scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(onError.toString()),));
+				}) ;
 			}
 			Navigator.of(context).pop();
 		}

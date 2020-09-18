@@ -12,6 +12,8 @@ class TabScreen extends StatefulWidget {
 class _TabScreenState extends State<TabScreen> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('FlutterChat'),
         actions: <Widget>[
@@ -89,7 +92,7 @@ class _TabScreenState extends State<TabScreen> {
       context: context,
       barrierDismissible: false,
       builder: (ctx) {
-        return PrayerForm.newPrayer();
+        return PrayerForm.newPrayer(scaffoldKey: _scaffoldKey);
       }
     );
   }

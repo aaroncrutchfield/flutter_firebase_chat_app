@@ -46,8 +46,14 @@ class _UserInputState extends State<UserInput> {
         _dbService.insertChatMessage(user.uid, _enteredMessage);
         break;
       case InputType.PRAYER_COMMENT:
-        _dbService.insertNewPrayerComment(
-            user.uid, widget.docId, PrayerComment(comment: _enteredMessage));
+        _dbService
+            .insertNewPrayerComment(
+                user.uid, widget.docId, PrayerComment(comment: _enteredMessage))
+            .catchError((onError) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(onError.toString()),
+          ));
+        });
         break;
     }
     _controller.clear();
