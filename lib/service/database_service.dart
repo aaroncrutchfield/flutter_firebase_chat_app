@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_firebase_chat_app/model/chat.dart';
+import 'package:flutter_firebase_chat_app/model/firebase/collections/chat.dart';
 import 'package:flutter_firebase_chat_app/model/metadata.dart';
 import 'package:flutter_firebase_chat_app/model/prayer.dart';
 import 'package:flutter_firebase_chat_app/model/prayer_comment.dart';

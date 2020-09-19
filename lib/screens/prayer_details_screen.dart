@@ -27,7 +27,6 @@ class _PrayerDetailsScreenState extends State<PrayerDetailsScreen> {
         children: <Widget>[
           Expanded(
             child: ListView(
-
               children: <Widget>[
                 PrayerDetailsItem(widget.prayer),
                 Center(

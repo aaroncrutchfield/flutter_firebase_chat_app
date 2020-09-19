@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_chat_app/model/chat.dart';
+import 'package:flutter_firebase_chat_app/model/firebase/collections/chat.dart';
 import 'package:flutter_firebase_chat_app/service/auth_service.dart';
 import 'package:flutter_firebase_chat_app/service/database_service.dart';
 import 'package:flutter_firebase_chat_app/widgets/chat/message_bubble.dart';
